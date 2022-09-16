@@ -7,7 +7,45 @@ import asyncpg
 import aioredis
 from views.index import routes as routes_index
 
-app = web.Application(middlewares=[session_middleware(RedisStorage(aioredis.from_url(getenv("REDIS_URL"))))])
+
+@web.middleware
+async def cors_middleware(request, handler):
+    headers = {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Origin": getenv("CORS_ALLOW_ORIGIN", "*"),
+    }
+    if request.method == "OPTIONS":
+        return web.Response(headers=headers)
+    try:
+        response = await handler(request)
+        for key, value in headers.items():
+            response.headers[key] = value
+        return response
+    except web.HTTPException as e:
+        for key, value in headers.items():
+            e.headers[key] = value
+        raise e
+
+
+cookie_params = {
+    # `SameSite=None` required when frontend and backend are cross-site
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
+    "samesite": getenv("COOKIE_SAMESITE", "Lax"),
+}
+
+# `Secure` (HTTPS) required when `SameSite=None`
+if cookie_params["samesite"] == "None":
+    cookie_params["secure"] = True
+
+
+app = web.Application(
+    middlewares=[
+        cors_middleware,
+        session_middleware(RedisStorage(aioredis.from_url(getenv("REDIS_URL")), **cookie_params)),
+    ]
+)
 app.add_routes(routes_index)
 
 
