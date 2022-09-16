@@ -14,3 +14,15 @@ services:
     environment:
       AUTH_SALT: deadbeef
 ```
+
+## Start Dev Server
+```
+docker compose up
+```
+
+## Develop
+
+### Add npm package
+```
+docker compose exec frontend npm install <package>
+```
