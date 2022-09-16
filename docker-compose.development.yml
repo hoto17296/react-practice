@@ -19,6 +19,8 @@ services:
       - 8081:8081
     environment:
       LOG_LEVEL: DEBUG
+      DATABASE_URL: postgres://postgres:deadbeef@postgres/postgres
+      REDIS_URL: redis://redis/
     command: adev runserver --port 8081 .
 
   postgres:
