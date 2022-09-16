@@ -7,7 +7,7 @@ import asyncpg
 import aioredis
 from views.index import routes as routes_index
 
-app = web.Application(middleware=[session_middleware(RedisStorage(aioredis.from_url(getenv("REDIS_URL"))))])
+app = web.Application(middlewares=[session_middleware(RedisStorage(aioredis.from_url(getenv("REDIS_URL"))))])
 app.add_routes(routes_index)
 
 
