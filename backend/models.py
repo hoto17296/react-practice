@@ -14,7 +14,7 @@ class User(BaseModel):
         query = f"""
             SELECT *
             FROM users
-            WHERE user_id = $1
+            WHERE id = $1
             """
         row = await pg.fetchrow(query, user_id)
         return cls(**row) if row else None

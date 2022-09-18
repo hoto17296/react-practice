@@ -11,6 +11,7 @@ export default async function fetchJSON<T>(
     init.method ||= 'POST'
     init.headers ||= { 'Content-Type': 'application/json' }
     init.body ||= JSON.stringify(data)
+    init.credentials ||= 'include'
   }
   const response = await fetch(input, init)
   if (!response.ok) throw response
