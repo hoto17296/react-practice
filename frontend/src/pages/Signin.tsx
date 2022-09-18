@@ -8,15 +8,20 @@ import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import fetchJSON from '../lib/fetch'
 
 const SigninPage: FC<{}> = () => {
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    })
+    const formData = new FormData(event.currentTarget)
+    const { verified } = await fetchJSON<{ verified: boolean }>(
+      '/auth/signin',
+      {
+        email: formData.get('email'),
+        password: formData.get('password'),
+      }
+    )
+    // TODO
   }
 
   return (

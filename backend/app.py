@@ -5,7 +5,9 @@ from aiohttp_session import session_middleware
 from aiohttp_session.redis_storage import RedisStorage
 import asyncpg
 import aioredis
+import lib.auth as auth
 from views.index import routes as routes_index
+from views.auth import routes as routes_auth
 
 
 @web.middleware
@@ -44,9 +46,11 @@ app = web.Application(
     middlewares=[
         cors_middleware,
         session_middleware(RedisStorage(aioredis.from_url(getenv("REDIS_URL")), **cookie_params)),
+        auth.middleware(getenv("AUTH_SALT").encode()),
     ]
 )
 app.add_routes(routes_index)
+app.add_routes(routes_auth)
 
 
 async def startup(app: web.Application):
