@@ -32,6 +32,7 @@ async def cors_middleware(request, handler):
 
 
 cookie_params = {
+    "cookie_name": "SESSION",
     # `SameSite=None` required when frontend and backend are cross-site
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
     "samesite": getenv("COOKIE_SAMESITE", "Lax"),
