@@ -1,7 +1,10 @@
-import React from 'react'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Layout from './components/Layout'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import DashboardLayout from './components/DashboardLayout'
+
+const theme = createTheme()
 
 const router = createBrowserRouter([
   {
@@ -9,7 +12,7 @@ const router = createBrowserRouter([
     element: <div>Sign in</div>,
   },
   {
-    element: <Layout />,
+    element: <DashboardLayout sitename="WebApp" />,
     children: [
       {
         path: '',
@@ -33,7 +36,9 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <StrictMode>
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  </StrictMode>
 )
