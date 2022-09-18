@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import TopLevelErrorBoundary from './components/TopLevelErrorBoundary'
 import DashboardLayout from './components/DashboardLayout'
 import SigninPage from './pages/Signin'
 
@@ -38,8 +39,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <StrictMode>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <TopLevelErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </TopLevelErrorBoundary>
   </StrictMode>
 )
