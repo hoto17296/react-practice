@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import DashboardLayout from './components/DashboardLayout'
+import SigninPage from './pages/Signin'
 
 const theme = createTheme()
 
 const router = createBrowserRouter([
   {
     path: 'signin',
-    element: <div>Sign in</div>,
+    element: <SigninPage />,
   },
   {
     element: <DashboardLayout sitename="WebApp" />,
